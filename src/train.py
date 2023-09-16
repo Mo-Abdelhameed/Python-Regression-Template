@@ -45,11 +45,14 @@ features = schema['features']
 
 numeric_features = []
 categorical_features = []
+nullable_features = []
 for f in features:
     if f['dataType'] == 'CATEGORICAL':
         categorical_features.append(f['name'])
     else:
         numeric_features.append(f['name'])
+    if f['nullable']:
+        nullable_features.append(f['name'])
 
 id_feature = schema['id']['name']
 target_feature = schema['target']['name']
@@ -78,11 +81,9 @@ testing phase should be learned from the training phase. This is why we are crea
 during training to reuse these values during testing.
 """
 
-
 # Imputing missing data
 imputation_values = {}
-columns_with_missing_values = df.columns[df.isna().any()]
-for column in columns_with_missing_values:
+for column in nullable_features:
     if column in numeric_features:
         value = df[column].median()
     else:
@@ -91,6 +92,7 @@ for column in columns_with_missing_values:
     df[column].fillna(value, inplace=True)
     imputation_values[column] = value
 dump(imputation_values, IMPUTATION_FILE)
+
 
 # Comment the above code and write you own imputation code here
 

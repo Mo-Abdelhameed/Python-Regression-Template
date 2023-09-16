@@ -40,11 +40,15 @@ features = schema['features']
 
 numeric_features = []
 categorical_features = []
+nullable_features = []
 for f in features:
     if f['dataType'] == 'CATEGORICAL':
         categorical_features.append(f['name'])
     else:
         numeric_features.append(f['name'])
+    if f['nullable']:
+        nullable_features.append(f['name'])
+    
 
 id_feature = schema['id']['name']
 target_feature = schema['target']['name']
@@ -61,9 +65,8 @@ Note that when we work with testing data, we have to impute using the same value
 training. This is to avoid data leakage. 
 """
 
-columns_with_missing_values = df.columns[df.isna().any()]
 imputation_values = load(IMPUTATION_FILE)
-for column in columns_with_missing_values:
+for column in nullable_features:
     df[column].fillna(imputation_values[column], inplace=True)
 
 
