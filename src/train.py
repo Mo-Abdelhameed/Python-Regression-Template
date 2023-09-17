@@ -4,7 +4,7 @@ import os
 import json
 import pandas as pd
 import warnings
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import ElasticNet
 from feature_engine.encoding import OneHotEncoder
 from joblib import dump
 
@@ -132,10 +132,10 @@ if categorical_features:
 
 
 # Training the Classifier
-# We choose Linear Regression model, but feel free to try your own and compare the results.
+# We choose ElasticNet Regressormodel, but feel free to try your own and compare the results.
 
-# Creating a Linear regression model and training it
-model = LinearRegression()
+# Creating a ElasticNet model and training it
+model = ElasticNet()
 model.fit(df, target)
 
 # BEGIN

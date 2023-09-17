@@ -87,7 +87,6 @@ if os.path.exists(OHE_ENCODER_FILE):
 
 # Making predictions
 """Using the model saved during training."""
-
 model = load(PREDICTOR_FILE_PATH)
 predictions = model.predict(df)
 
